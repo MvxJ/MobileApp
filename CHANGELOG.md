@@ -1,0 +1,1 @@
+- Version 1.0.0 - Create base app structure, install tailwind
