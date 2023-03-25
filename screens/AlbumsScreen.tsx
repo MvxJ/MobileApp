@@ -1,13 +1,13 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView } from 'react-native'
 import React from 'react'
 import {useTailwind} from 'tailwind-rn';
 
 const AlbumsScreen = () => {
     const tailwind = useTailwind();
     return (
-        <SafeAreaView>
+        <ScrollView>
             <Text style={tailwind("text-pink-500")}>AlbumsScreen</Text>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 
