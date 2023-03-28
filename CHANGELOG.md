@@ -1,3 +1,4 @@
 - Version 1.0.0 - Create base app structure, install tailwind
 - Version 1.0.1 - Create app menu
 - Version 1.0.2 - Display posts
+- Version 1.0.3 - Display albums and profile page
