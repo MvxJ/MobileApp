@@ -19,22 +19,17 @@
 			"position": "relative"
 		}
 	},
-	"m-5": {
+	"m-2": {
 		"style": {
-			"marginTop": 20,
-			"marginRight": 20,
-			"marginBottom": 20,
-			"marginLeft": 20
+			"marginTop": 8,
+			"marginRight": 8,
+			"marginBottom": 8,
+			"marginLeft": 8
 		}
 	},
-	"mb-5": {
+	"mr-5": {
 		"style": {
-			"marginBottom": 20
-		}
-	},
-	"mt-2": {
-		"style": {
-			"marginTop": 8
+			"marginRight": 20
 		}
 	},
 	"mt-5": {
@@ -67,12 +62,9 @@
 			"display": "none"
 		}
 	},
-	"rounded": {
+	"flex-row": {
 		"style": {
-			"borderTopLeftRadius": 4,
-			"borderTopRightRadius": 4,
-			"borderBottomRightRadius": 4,
-			"borderBottomLeftRadius": 4
+			"flexDirection": "row"
 		}
 	},
 	"rounded-md": {
@@ -91,20 +83,19 @@
 			"borderLeftWidth": 1
 		}
 	},
-	"border-2": {
+	"border-gray-700": {
 		"style": {
-			"borderTopWidth": 2,
-			"borderRightWidth": 2,
-			"borderBottomWidth": 2,
-			"borderLeftWidth": 2
+			"--tw-border-opacity": 1,
+			"borderTopColor": "rgb(55 65 81 / var(--tw-border-opacity))",
+			"borderRightColor": "rgb(55 65 81 / var(--tw-border-opacity))",
+			"borderBottomColor": "rgb(55 65 81 / var(--tw-border-opacity))",
+			"borderLeftColor": "rgb(55 65 81 / var(--tw-border-opacity))"
 		}
 	},
-	"p-5": {
+	"bg-white": {
 		"style": {
-			"paddingTop": 20,
-			"paddingRight": 20,
-			"paddingBottom": 20,
-			"paddingLeft": 20
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
 		}
 	},
 	"p-1": {
@@ -123,19 +114,12 @@
 			"paddingLeft": 8
 		}
 	},
-	"pb-4": {
+	"p-5": {
 		"style": {
-			"paddingBottom": 16
-		}
-	},
-	"pb-2": {
-		"style": {
-			"paddingBottom": 8
-		}
-	},
-	"text-justify": {
-		"style": {
-			"textAlign": "justify"
+			"paddingTop": 20,
+			"paddingRight": 20,
+			"paddingBottom": 20,
+			"paddingLeft": 20
 		}
 	},
 	"text-start": {
@@ -154,11 +138,6 @@
 			"fontWeight": "600"
 		}
 	},
-	"font-bold": {
-		"style": {
-			"fontWeight": "700"
-		}
-	},
 	"uppercase": {
 		"style": {
 			"textTransform": "uppercase"
@@ -169,16 +148,10 @@
 			"textTransform": "capitalize"
 		}
 	},
-	"text-blue-500": {
+	"text-gray-500": {
 		"style": {
 			"--tw-text-opacity": 1,
-			"color": "rgb(59 130 246 / var(--tw-text-opacity))"
-		}
-	},
-	"text-pink-500": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(236 72 153 / var(--tw-text-opacity))"
+			"color": "rgb(107 114 128 / var(--tw-text-opacity))"
 		}
 	}
 }

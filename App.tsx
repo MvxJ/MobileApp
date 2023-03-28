@@ -10,6 +10,7 @@ export default function App() {
   return (
     // @ts-ignore - TailwindProvider is missing a type definition
     <TailwindProvider utilities={utilities}>
+      <StatusBar></StatusBar>
       <NavigationContainer>
         <RootNavigator />
       </NavigationContainer>

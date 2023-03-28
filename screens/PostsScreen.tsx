@@ -19,7 +19,7 @@ const PostsScreen = () => {
 
     return (
         <SafeAreaView>
-            <ScrollView style={tailwind("p-2")}>
+            <ScrollView style={tailwind("p-1")}>
                 <View>
                     {posts.map((post) => (
                         <PostCard {...post}></PostCard>
