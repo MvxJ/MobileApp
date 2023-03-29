@@ -4,6 +4,16 @@ import {useTailwind} from 'tailwind-rn';
 import { Album } from '../interfaces/AlbumInterface';
 import axios, { AxiosResponse } from 'axios';
 import AlbumCard from '../components/AlbumCard';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RootStackParamList } from '../navigator/RootNavigator';
+import { TabStackParamList } from '../navigator/TabNavigator';
+import { CompositeNavigationProp } from '@react-navigation/native';
+
+export type PostScreenNavigationProp = CompositeNavigationProp<
+    BottomTabNavigationProp<TabStackParamList, 'Albums'>, 
+    NativeStackNavigationProp<RootStackParamList>
+>;
 
 const AlbumsScreen = () => {
     const tailwind = useTailwind();

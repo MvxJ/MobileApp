@@ -27,6 +27,11 @@
 			"marginLeft": 8
 		}
 	},
+	"mb-5": {
+		"style": {
+			"marginBottom": 20
+		}
+	},
 	"mr-5": {
 		"style": {
 			"marginRight": 20

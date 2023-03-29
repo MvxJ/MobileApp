@@ -10,6 +10,10 @@ import AlbumsScreen from '../screens/AlbumsScreen';
 export type TabStackParamList = {
     Profile: undefined;
     Posts: undefined;
+    Albums: undefined;
+    PostModal: undefined;
+    AlbumModal: undefined;
+    PhotoModal: undefined;
 }
 
 const Tab = createBottomTabNavigator();
