@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -6,6 +6,7 @@ import PostsScreen from '../screens/PostsScreen';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from '@rneui/themed';
 import AlbumsScreen from '../screens/AlbumsScreen';
+import Variables from '../props/Variables';
 
 export type TabStackParamList = {
     Profile: undefined;
@@ -29,17 +30,19 @@ const TabNavigator = () => {
 
     return (
         <Tab.Navigator screenOptions={({ route }) => ({
-            tabBarActiveTintColor: "#ff42f3",
-            tabBarInactiveTintColor: "lightgray",
+            tabBarActiveTintColor: Variables.iconsActiveColor,
+            tabBarInactiveTintColor: Variables.iconsInactiveColor,
+            headerTitleStyle: styles.headerNavigation,
+
             tabBarIcon: ({ focused, color, size }) => {
                 if (route.name === 'Profile') {
                     // @ts-ignore
-                    return <Icon name="user" type="entypo" color={focused ? "#ff42f3" : "lightgray"}/>
+                    return <Icon name="user" type="entypo" color={focused ? Variables.iconsActiveColor : Variables.iconsInactiveColor}/>
                 } else if (route.name === "Posts") {
                     // @ts-ignore
-                    return <Icon name="list" type="entypo" color={focused ? "#ff42f3" : "lightgray"}/>
+                    return <Icon name="list" type="entypo" color={focused ? Variables.iconsActiveColor : Variables.iconsInactiveColor}/>
                 } else if (route.name === "Albums") {
-                    return <Icon name="grid" type="entypo" color={focused ? "#ff42f3" : "lightgray"}/>
+                    return <Icon name="grid" type="entypo" color={focused ? Variables.iconsActiveColor : Variables.iconsInactiveColor}/>
                 }
             }
         })}>
@@ -49,5 +52,11 @@ const TabNavigator = () => {
         </Tab.Navigator>
     )
 }
+
+const styles = StyleSheet.create({
+    headerNavigation: {
+        color: Variables.headerTextColor
+    }
+});
 
 export default TabNavigator

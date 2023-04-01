@@ -1,7 +1,8 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
 import React from 'react'
 import { Photo } from '../interfaces/PhotoInterfacce'
 import { useNavigation } from '@react-navigation/native'
+import Variables from '../props/Variables'
 
 const PhotoCard = (photo: Photo) => {
     const navigation = useNavigation();
@@ -17,18 +18,24 @@ const PhotoCard = (photo: Photo) => {
             }
             style={styles.card}
         >
-            <View>
+            <View key={photo.id}>
                 <Image source={{uri: photo.thumbnailUrl}} style={styles.icon}/>
-                <Text>{photo.title}</Text>
+                <Text style={styles.title}>{photo.title}</Text>
             </View>
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
-    icon: {
-        width: 150,
-        height: 150,
+    title: {
+        color: Variables.headerTextColor,
+        fontWeight: "bold",
+        flex: 1,
+        height: 50,
+        textAlign: "center",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 5
     },
     card: {
         flex: 1, 
@@ -37,9 +44,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 5,
         borderColor: "lightgray",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 4
+        overflow: "hidden"
+    },
+    icon: {
+        width: '100%',
+        height: 128,
     }
 });
 
