@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet } from 'react-native'
 import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {useTailwind} from 'tailwind-rn';
 import { Post } from '../interfaces/PostInterface';
@@ -9,6 +9,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TabStackParamList } from '../navigator/TabNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigator/RootNavigator';
+import Variables from '../props/Variables';
 
 export type PostScreenNavigationProp = CompositeNavigationProp<
     BottomTabNavigationProp<TabStackParamList, 'Posts'>, 
@@ -20,10 +21,11 @@ const PostsScreen = () => {
     const navigation = useNavigation<PostScreenNavigationProp>();
     const [posts, setPosts] = useState<Post[]>([])
     const url = "https://jsonplaceholder.typicode.com/posts"
+    const [isLoading, setIsLoading] = useState(true);
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerShown: false
+            headerShown: true
         });
     });
 
@@ -31,20 +33,33 @@ const PostsScreen = () => {
         axios.get<Post[]>(url)
         .then((response: AxiosResponse) => {
             setPosts(response.data);
+            setIsLoading(false);
+        }).catch(error => {
+            setIsLoading(false);
         });
     }, []);
 
     return (
         <SafeAreaView>
-            <ScrollView style={tailwind("p-1")}>
-                <View>
-                    {posts.map((post) => (
-                        <PostCard {...post}></PostCard>
-                    ))}
-                </View>
-            </ScrollView>
+            {isLoading ? (
+                <ActivityIndicator />
+            ) : (
+                <ScrollView >
+                    <View>
+                        {posts.map((post) => (
+                            <PostCard {...post}></PostCard>
+                        ))}
+                    </View>
+                </ScrollView>   
+            )}
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    scrollViewStyles: {
+        backgroundColor: Variables.viewBackground
+    }
+});
 
 export default PostsScreen

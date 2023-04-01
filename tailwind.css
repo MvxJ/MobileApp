@@ -18,6 +18,10 @@
   margin: 0.5rem
 }
 
+.m-5 {
+  margin: 1.25rem
+}
+
 .mb-5 {
   margin-bottom: 1.25rem
 }
@@ -50,6 +54,10 @@
   display: none
 }
 
+.max-h-max {
+  max-height: max-content
+}
+
 .flex-row {
   flex-direction: row
 }
@@ -72,16 +80,16 @@
   background-color: rgb(255 255 255 / var(--tw-bg-opacity))
 }
 
-.p-1 {
-  padding: 0.25rem
-}
-
 .p-2 {
   padding: 0.5rem
 }
 
 .p-5 {
   padding: 1.25rem
+}
+
+.text-justify {
+  text-align: justify
 }
 
 .text-start {
@@ -93,8 +101,31 @@
   line-height: 1.25rem
 }
 
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem
+}
+
 .font-semibold {
   font-weight: 600
+}
+
+.font-black {
+  font-weight: 900
+}
+
+.font-extrabold {
+  font-weight: 800
 }
 
 .uppercase {
@@ -108,4 +139,9 @@
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity))
+}
+
+.text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity))
 }

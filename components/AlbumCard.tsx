@@ -8,6 +8,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TabStackParamList } from '../navigator/TabNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigator/RootNavigator';
+import Variables from '../props/Variables';
 
 export type PostScreenNavigationProp = CompositeNavigationProp<
     BottomTabNavigationProp<TabStackParamList, 'AlbumModal'>, 
@@ -28,12 +29,15 @@ const AlbumCard = (album: Album) => {
                 })
             }
             style={styles.card}
+            key={album.id}
         >
             <View>
-                <Image 
-                    style={styles.icon}
-                    source={require('../assets/images/gallery.png')}
-                />
+                <View style={styles.icon}>
+                    <Image 
+                        source={require('../assets/images/folder.png')}
+                        style={styles.image}
+                    />
+                </View>
                 <Text style={styles.title}>{album.title}</Text>
             </View>
         </TouchableOpacity>
@@ -42,8 +46,11 @@ const AlbumCard = (album: Album) => {
 
 const styles = StyleSheet.create({
     title: {
-        color: "#ff42f3",
-        fontWeight: "bold"
+        color: Variables.headerTextColor,
+        fontWeight: "bold",
+        display: "flex",
+        height: 50,
+        textAlign: "center"
     },
     card: {
         flex: 1, 
@@ -52,13 +59,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 5,
         borderColor: "lightgray",
-        justifyContent: "center",
-        alignItems: "center",
+        // justifyContent: "center",
         padding: 4
     },
     icon: {
+        flex: 1,
         width: 128,
-        height: 128,
+        height: 128
+    },
+    image: {
+        marginLeft: 20
     }
 });
 

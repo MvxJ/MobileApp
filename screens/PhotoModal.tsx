@@ -6,6 +6,7 @@ import { TabStackParamList } from '../navigator/TabNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigator/RootNavigator';
 import { useTailwind } from 'tailwind-rn/dist';
+import Variables from '../props/Variables';
 
 type PostModalScreenNavigationProp = CompositeNavigationProp<
     BottomTabNavigationProp<TabStackParamList>, 
@@ -24,11 +25,11 @@ const PhotoModal = () => {
     return (
         <View>
             <TouchableOpacity onPress={navigation.goBack} style={tailwind("mb-5")}>
-                <Text>Close</Text>
+                <Text style={[tailwind("m-5 text-xl"), styles.header]}>Close</Text>
             </TouchableOpacity>
             <View>
                 <Image source={{uri: photoUrl}} style={styles.image}/>
-                <Text>{photoTitle}</Text>
+                <Text style={[tailwind("m-5"), styles.header]}>{photoTitle}</Text>
             </View>
         </View>
     )
@@ -38,6 +39,10 @@ const styles = StyleSheet.create({
     image: {
         height: 400,
         width: 400
+    },
+    header: {
+        color: Variables.headerTextColor,
+        fontWeight: "bold"
     }
 });
 
