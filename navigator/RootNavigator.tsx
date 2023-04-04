@@ -5,8 +5,12 @@ import TabNavigator from './TabNavigator';
 import PostModal from '../screens/PostModal';
 import AlbumModal from '../screens/AlbumModal';
 import PhotoModal from '../screens/PhotoModal';
+import LoginScreen from '../screens/LoginScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export type RootStackParamList = {
+    Login: undefined;
+    Main: undefined;
     Profile: {userId: string}
     Posts: {order: any}
     Albums: {order: any};
@@ -19,7 +23,16 @@ const RootStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
   return (
-    <RootStack.Navigator>
+    <RootStack.Navigator
+      initialRouteName='Login'
+      screenOptions={{
+        gestureEnabled: false, // Disable swipe gesture
+      }}>
+        <RootStack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
         <RootStack.Group>
             <RootStack.Screen name="Main" component={TabNavigator} />
         </RootStack.Group>

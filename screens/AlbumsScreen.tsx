@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, ScrollView, FlatList } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {useTailwind} from 'tailwind-rn';
 import { Album } from '../interfaces/AlbumInterface';
 import axios, { AxiosResponse } from 'axios';
@@ -8,9 +8,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RootStackParamList } from '../navigator/RootNavigator';
 import { TabStackParamList } from '../navigator/TabNavigator';
-import { CompositeNavigationProp } from '@react-navigation/native';
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 
-export type PostScreenNavigationProp = CompositeNavigationProp<
+export type AlbumScreenNavigationProp = CompositeNavigationProp<
     BottomTabNavigationProp<TabStackParamList, 'Albums'>, 
     NativeStackNavigationProp<RootStackParamList>
 >;
@@ -18,7 +18,14 @@ export type PostScreenNavigationProp = CompositeNavigationProp<
 const AlbumsScreen = () => {
     const tailwind = useTailwind();
     const [albums, setAlbums] = useState<Album[]>([])
+    const navigation = useNavigation<AlbumScreenNavigationProp>();
     const url = "https://jsonplaceholder.typicode.com/posts"
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: false
+        });
+    });
 
     useEffect(() => {
         axios.get<Album[]>(url)
