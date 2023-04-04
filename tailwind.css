@@ -34,6 +34,18 @@
   margin-top: 1.25rem
 }
 
+.mt-2 {
+  margin-top: 0.5rem
+}
+
+.mt-3 {
+  margin-top: 0.75rem
+}
+
+.mr-2 {
+  margin-right: 0.5rem
+}
+
 .block {
   display: block
 }
@@ -52,10 +64,6 @@
 
 .hidden {
   display: none
-}
-
-.max-h-max {
-  max-height: max-content
 }
 
 .flex-row {
@@ -88,6 +96,10 @@
   padding: 1.25rem
 }
 
+.text-right {
+  text-align: right
+}
+
 .text-justify {
   text-align: justify
 }
@@ -96,19 +108,14 @@
   text-align: start
 }
 
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem
-}
-
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem
 }
 
 .text-xl {
@@ -116,16 +123,12 @@
   line-height: 1.75rem
 }
 
-.font-semibold {
-  font-weight: 600
-}
-
-.font-black {
-  font-weight: 900
-}
-
 .font-extrabold {
   font-weight: 800
+}
+
+.font-semibold {
+  font-weight: 600
 }
 
 .uppercase {
@@ -144,4 +147,9 @@
 .text-gray-700 {
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity))
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity))
 }

@@ -47,7 +47,7 @@ const PostsScreen = () => {
                 <ScrollView >
                     <View>
                         {posts.map((post) => (
-                            <PostCard {...post}></PostCard>
+                            <PostCard post={post}></PostCard>
                         ))}
                     </View>
                 </ScrollView>   

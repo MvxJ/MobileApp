@@ -50,6 +50,21 @@
 			"marginTop": 20
 		}
 	},
+	"mt-2": {
+		"style": {
+			"marginTop": 8
+		}
+	},
+	"mt-3": {
+		"style": {
+			"marginTop": 12
+		}
+	},
+	"mr-2": {
+		"style": {
+			"marginRight": 8
+		}
+	},
 	"block": {
 		"style": {
 			"display": "block"
@@ -73,11 +88,6 @@
 	"hidden": {
 		"style": {
 			"display": "none"
-		}
-	},
-	"max-h-max": {
-		"style": {
-			"maxHeight": "max-content"
 		}
 	},
 	"flex-row": {
@@ -132,6 +142,11 @@
 			"paddingLeft": 20
 		}
 	},
+	"text-right": {
+		"style": {
+			"textAlign": "right"
+		}
+	},
 	"text-justify": {
 		"style": {
 			"textAlign": "justify"
@@ -142,22 +157,16 @@
 			"textAlign": "start"
 		}
 	},
-	"text-sm": {
-		"style": {
-			"fontSize": 14,
-			"lineHeight": 20
-		}
-	},
 	"text-base": {
 		"style": {
 			"fontSize": 16,
 			"lineHeight": 24
 		}
 	},
-	"text-2xl": {
+	"text-sm": {
 		"style": {
-			"fontSize": 24,
-			"lineHeight": 32
+			"fontSize": 14,
+			"lineHeight": 20
 		}
 	},
 	"text-xl": {
@@ -166,19 +175,14 @@
 			"lineHeight": 28
 		}
 	},
-	"font-semibold": {
-		"style": {
-			"fontWeight": "600"
-		}
-	},
-	"font-black": {
-		"style": {
-			"fontWeight": "900"
-		}
-	},
 	"font-extrabold": {
 		"style": {
 			"fontWeight": "800"
+		}
+	},
+	"font-semibold": {
+		"style": {
+			"fontWeight": "600"
 		}
 	},
 	"uppercase": {
@@ -201,6 +205,12 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(55 65 81 / var(--tw-text-opacity))"
+		}
+	},
+	"text-red-500": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(239 68 68 / var(--tw-text-opacity))"
 		}
 	}
 }

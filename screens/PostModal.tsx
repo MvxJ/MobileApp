@@ -1,4 +1,4 @@
-import { View, Text, Touchable, TouchableOpacity, FlatList, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
+import { View, Text, Touchable, TouchableOpacity, FlatList, StyleSheet, ScrollView, ActivityIndicator, TextInput } from 'react-native'
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -67,7 +67,7 @@ const PostModal = () => {
                 ) : (
                     <ScrollView style={tailwind("p-2 text-sm rounded-md block m-2 bg-white border-gray-700")}>
                         <View style={styles.headerBox}>
-                            <Image source={Images[autorId]} style={styles.profileImage} />
+                            <Image source={Images[autorId -1]} style={styles.profileImage} />
                             <View style={styles.title}>
                                 <Text style={[tailwind("font-extrabold"), styles.authorColor]}>{author?.name}</Text>
                                 <Text style={tailwind("text-gray-500")}>{author?.email}</Text>
@@ -78,7 +78,9 @@ const PostModal = () => {
                             <Text style={tailwind("block mr-5 mt-5")}>{likes} <FontAwesome5 name={'thumbs-up'}/></Text>
                             <Text style={tailwind("block mr-5 mt-5")}>{disLikes} <FontAwesome5 name={'thumbs-down'}/></Text>
                         </View>
-                        <Text style={tailwind("mb-5 mt-5 text-sm text-gray-700")}>Comments (5):</Text>
+                        <View style={tailwind("mb-5 mt-5")}>
+                            <Text style={tailwind("text-sm text-gray-700")}>Comments (5):</Text>
+                        </View>
                         {comments.map((comment) => (
                             <CommentBlock {...comment}></CommentBlock>
                         ))}
