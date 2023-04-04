@@ -7,6 +7,7 @@ import AlbumModal from '../screens/AlbumModal';
 import PhotoModal from '../screens/PhotoModal';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import Variables from '../props/variables';
 
 export type RootStackParamList = {
     Login: undefined;
@@ -14,7 +15,7 @@ export type RootStackParamList = {
     Profile: {userId: string}
     Posts: {order: any}
     Albums: {order: any};
-    PostModule: {postId: number, postBody: string, postTitle: string, autorId: number}
+    PostModule: {postId: number, postBody: string, postTitle: string, autorId: number, likes: number, disLikes: number}
     AlbumModule: {albumId: number, albumTitle: string}
     PhotoModule: {photoUrl: string, photoTitle: string}
 }
@@ -37,7 +38,7 @@ const RootNavigator = () => {
             <RootStack.Screen name="Main" component={TabNavigator} />
         </RootStack.Group>
         <RootStack.Group screenOptions={{
-            presentation: "card"
+            presentation: "card",
         }}>
           <RootStack.Screen name="PostModule" component={PostModal} options={{headerShown: false}}/>
           <RootStack.Screen name="AlbumModule" component={AlbumModal} options={{headerShown: false}} />
