@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView, StyleSheet, Image } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigator/RootNavigator';
+import { Profile } from '../interfaces/ProfileInterface';
+import Images from '../props/Images';
+import Variables from '../props/Variables';
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -13,26 +16,6 @@ type Props = {
 };
 
 type ProfileField = 'name' | 'username' | 'email' | 'phone' | 'website' | 'street' | 'suite' | 'city' | 'zipcode' | 'companyName' | 'catchPhrase' | 'bs';
-
-type Profile = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  };
-};
 
 const ProfileScreen = ({ navigation }: Props) => {
   const tailwind = useTailwind();
@@ -116,9 +99,22 @@ const ProfileScreen = ({ navigation }: Props) => {
   };
 
   const handleFieldChange = (field: ProfileField, value: string) => {
-    setLocalProfile({ ...localProfile, [field]: value });
-    console.log(localProfile);
+    setLocalProfile({ 
+      ...localProfile, 
+      [field]: value,
+      address: {
+        ...localProfile.address,
+        [field]: value,
+      },
+      company: {
+        ...localProfile.company,
+        [field]: value,
+      }
+    });
+    console.log(localProfile)
   };
+  
+  
 
   const handleSaveProfile = async (newProfile: Profile) => {
     try {
@@ -171,7 +167,9 @@ const ProfileScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView>
       <ScrollView style={tailwind("p-2")}>
-        <Text style={tailwind("mt-5 font-semibold")}>Account information: </Text>
+        <View style={tailwind("flex flex-row justify-center items-center mt-4")}>
+              <Image source={Images[userId]} style={styles.avatar} />
+        </View>
           {renderTextInput('Name:', localProfile.name, 'name')}
           {renderTextInput('Username:', localProfile.username, 'username')}
           {renderTextInput('Email:', localProfile.email, 'email')}
@@ -185,7 +183,7 @@ const ProfileScreen = ({ navigation }: Props) => {
           {renderTextInput('Zipcode:', localProfile.address.zipcode, 'zipcode')}
 
           <Text style={tailwind("mt-5 font-semibold")}>Company: </Text>
-          {renderTextInput('Came:', localProfile.company.name, 'name')}
+          {renderTextInput('Name:', localProfile.company.name, 'name')}
           {renderTextInput('Catch Phrase:', localProfile.company.catchPhrase, 'catchPhrase')}
           {renderTextInput('Bs:', localProfile.company.bs, 'bs')}
 
@@ -196,7 +194,20 @@ const ProfileScreen = ({ navigation }: Props) => {
           </View>
       </ScrollView>
     </SafeAreaView>
-    ) 
+    )
 }
+
+const styles = StyleSheet.create({
+  header: {
+      color: Variables.headerTextColor,
+      fontWeight: "bold"
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 75,
+},
+});
+
 
 export default ProfileScreen

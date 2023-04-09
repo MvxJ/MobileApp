@@ -7,7 +7,7 @@ import AlbumModal from '../screens/AlbumModal';
 import PhotoModal from '../screens/PhotoModal';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import Variables from '../props/variables';
+import UserModal from '../screens/UserModal';
 
 export type RootStackParamList = {
     Login: undefined;
@@ -15,9 +15,11 @@ export type RootStackParamList = {
     Profile: {userId: string}
     Posts: {order: any}
     Albums: {order: any};
+    Users: {order: any};
     PostModule: {postId: number, postBody: string, postTitle: string, autorId: number, likes: number, disLikes: number}
     AlbumModule: {albumId: number, albumTitle: string}
     PhotoModule: {photoUrl: string, photoTitle: string}
+    UserModule: {userId: number, username: string}
 }
 
 const RootStack = createNativeStackNavigator();
@@ -42,11 +44,13 @@ const RootNavigator = () => {
         }}>
           <RootStack.Screen name="PostModule" component={PostModal} options={{headerShown: false}}/>
           <RootStack.Screen name="AlbumModule" component={AlbumModal} options={{headerShown: false}} />
+          
         </RootStack.Group>
         <RootStack.Group screenOptions={{
             presentation: "modal"
         }}>
             <RootStack.Screen name="PhotoModule" component={PhotoModal} options={{headerShown: false}}/>
+            <RootStack.Screen name="UserModule" component={UserModal} options={{headerShown: false}} />
         </RootStack.Group>
     </RootStack.Navigator>
   )
