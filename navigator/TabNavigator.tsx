@@ -15,6 +15,7 @@ export type TabStackParamList = {
     PostModal: undefined;
     AlbumModal: undefined;
     PhotoModal: undefined;
+    PhotoModule: undefined
 }
 
 const Tab = createBottomTabNavigator();

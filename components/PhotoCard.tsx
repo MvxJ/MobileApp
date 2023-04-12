@@ -9,6 +9,7 @@ const PhotoCard = (photo: Photo) => {
 
     return (
         <TouchableOpacity 
+            testID="PhotoCardComponent"
             onPress={() => 
                 // @ts-ignore
                 navigation.navigate('PhotoModule', {

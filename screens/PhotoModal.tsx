@@ -23,7 +23,7 @@ const PhotoModal = () => {
     } = useRoute<PostModalScreenRouteProp>();
 
     return (
-        <View>
+        <View testID="PhotoModalScreen">
             <TouchableOpacity onPress={navigation.goBack} style={tailwind("mb-5")}>
                 <Text style={[tailwind("m-5 text-xl"), styles.header]}>Close</Text>
             </TouchableOpacity>

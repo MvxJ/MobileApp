@@ -7,7 +7,8 @@ const Variables = {
     viewBackground: "#555a5c",
     menuBackground: "#383838",
     iconsActiveColor: "#00b3ff",
-    iconsInactiveColor: "#c8cbcc"
+    iconsInactiveColor: "#c8cbcc",
+    dangerTextColor: "#ff2400"
 }
 
 export default Variables;
