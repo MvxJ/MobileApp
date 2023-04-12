@@ -41,7 +41,7 @@ const PostsScreen = () => {
     }, []);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={[tailwind('p-2')]}>
             {isLoading ? (
                 <ActivityIndicator />
             ) : (

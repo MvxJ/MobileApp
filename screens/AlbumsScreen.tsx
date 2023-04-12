@@ -38,7 +38,7 @@ const AlbumsScreen = () => {
             {isLoading ? (
             <ActivityIndicator />
             ) : (
-                <ScrollView style={tailwind("p-1")}>
+                <ScrollView style={tailwind("p-2")}>
                     <View style={[tailwind('flex-grow rounded-md mb-0 p-2'), styles.searchBox]}>
                         <TextInput
                             style={tailwind('flex-grow ml-2')}

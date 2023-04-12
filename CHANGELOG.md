@@ -5,4 +5,5 @@
 - Version 1.0.4 - Display posts comments in modal window, display album photos in modal window, add modal for photo click
 - Version 1.0.5 - Style post and comments, style albums and photos
 - Version 1.0.6 - Login and logout from the app, view and edit profile
-- Version 1.0.7 - Add app tests, edit app styles
+- Version 1.0.7 - Search and inspect all users
+- Version 1.0.8 - Add app tests, edit app styles

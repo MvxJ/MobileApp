@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView, StyleSheet, Pressable } from 'react-native';
+import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigator/RootNavigator';
+import { Profile } from '../interfaces/ProfileInterface';
+import Images from '../props/Images';
 import Variables from '../props/Variables';
 import { useNavigation } from '@react-navigation/native';
 
@@ -15,26 +17,6 @@ type Props = {
 };
 
 type ProfileField = 'name' | 'username' | 'email' | 'phone' | 'website' | 'street' | 'suite' | 'city' | 'zipcode' | 'companyName' | 'catchPhrase' | 'bs' | 'company-name';
-
-type Profile = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  };
-};
 
 export type ProfileScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -120,9 +102,22 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
   };
 
   const handleFieldChange = (field: ProfileField, value: string) => {
-    setLocalProfile({ ...localProfile, [field]: value });
-    console.log(localProfile);
+    setLocalProfile({ 
+      ...localProfile, 
+      [field]: value,
+      address: {
+        ...localProfile.address,
+        [field]: value,
+      },
+      company: {
+        ...localProfile.company,
+        [field]: value,
+      }
+    });
+    console.log(localProfile)
   };
+  
+  
 
   const handleSaveProfile = async (newProfile: Profile) => {
     try {
@@ -176,7 +171,10 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
   return (
     <SafeAreaView testID='PostsScreen'>
       <ScrollView style={tailwind("p-2 text-sm rounded-md block m-2 bg-white border-gray-700")}>
-        <Text style={[tailwind("mt-0 font-semibold"), styles.sectionHeader]}>Account information: </Text>
+        <View style={tailwind("flex flex-row justify-center items-center mt-4")}>
+              <Image source={Images[userId]} style={styles.avatar} />
+        </View>
+          <Text style={[tailwind("mt-0 font-semibold"), styles.sectionHeader]}>Account information: </Text>
           {renderTextInput('Name:', localProfile.name, 'name')}
           {renderTextInput('Username:', localProfile.username, 'username')}
           {renderTextInput('Email:', localProfile.email, 'email')}
@@ -190,7 +188,7 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
           {renderTextInput('Zipcode:', localProfile.address.zipcode, 'zipcode')}
 
           <Text style={[tailwind("mt-5 font-semibold"), styles.sectionHeader]}>Company: </Text>
-          {renderTextInput('Came:', localProfile.company.name, 'company-name')}
+          {renderTextInput('Name:', localProfile.company.name, 'company-name')}
           {renderTextInput('Catch Phrase:', localProfile.company.catchPhrase, 'catchPhrase')}
           {renderTextInput('Bs:', localProfile.company.bs, 'bs')}
 
@@ -207,8 +205,9 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
           </View>
       </ScrollView>
     </SafeAreaView>
-    ) 
+    )
 }
+
 
 const styles = StyleSheet.create({
   sectionHeader: {
@@ -235,6 +234,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 0.25,
     color: 'white',
+  },
+  header: {
+    color: Variables.headerTextColor,
+    fontWeight: "bold"
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 75,
   },
 });
 

@@ -7,11 +7,13 @@ import { useNavigation } from '@react-navigation/native';
 import { Icon } from '@rneui/themed';
 import AlbumsScreen from '../screens/AlbumsScreen';
 import Variables from '../props/Variables';
+import UsersScreen from '../screens/UsersScreen';
 
 export type TabStackParamList = {
     Profile: undefined;
     Posts: undefined;
     Albums: undefined;
+    Users: undefined;
     PostModal: undefined;
     AlbumModal: undefined;
     PhotoModal: undefined;
@@ -45,10 +47,14 @@ const TabNavigator = () => {
                 } else if (route.name === "Albums") {
                     return <Icon name="grid" type="entypo" color={focused ? Variables.iconsActiveColor : Variables.iconsInactiveColor}/>
                 }
+                else if (route.name === "Users") {
+                    return <Icon name="users" type="entypo" color={focused ? Variables.iconsActiveColor : Variables.iconsInactiveColor}/>
+                }
             }
         })}>
             <Tab.Screen name="Posts" component={PostsScreen} />
             <Tab.Screen name="Albums" component={AlbumsScreen} />
+            <Tab.Screen name="Users" component={UsersScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
     )
