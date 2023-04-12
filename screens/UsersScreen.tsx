@@ -1,4 +1,4 @@
-import { View, SafeAreaView, ActivityIndicator, ScrollView, TextInput } from 'react-native';
+import { View, SafeAreaView, ActivityIndicator, ScrollView, TextInput, StyleSheet } from 'react-native';
 import React, { useEffect, useLayoutEffect } from 'react'
 import {useState} from 'react'
 import {useTailwind} from 'tailwind-rn';
@@ -47,16 +47,12 @@ const UsersScreen = () => {
 
     return (
         <SafeAreaView>
-                      <View style={tailwind('flex flex-row items-center bg-gray-200 p-2 rounded-md')}>
-                <TextInput
+            <View style={[tailwind('flex-grow rounded-md m-2 mb-0 p-2'), styles.searchBox]}>
+                <TextInput 
                     style={tailwind('flex-grow ml-2')}
-                    placeholder="Search by name"
-                    value={searchQuery}
+                    placeholder='Search...'
                     onChangeText={(text) => setSearchQuery(text)}
                 />
-                <View style={tailwind('p-2')}>
-                    <FontAwesome5 name={'search'}/>
-                </View>
             </View>
 
             {isLoading ? (
@@ -76,5 +72,12 @@ const UsersScreen = () => {
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    searchBox: {
+        height: 32,
+        backgroundColor: '#fff',
+    }
+});
 
 export default UsersScreen;

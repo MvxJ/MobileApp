@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView, StyleSheet, Image } from 'react-native';
+import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,7 @@ import { RootStackParamList } from '../navigator/RootNavigator';
 import { Profile } from '../interfaces/ProfileInterface';
 import Images from '../props/Images';
 import Variables from '../props/Variables';
+import { useNavigation } from '@react-navigation/native';
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -15,9 +16,11 @@ type Props = {
   navigation: LoginScreenProps;
 };
 
-type ProfileField = 'name' | 'username' | 'email' | 'phone' | 'website' | 'street' | 'suite' | 'city' | 'zipcode' | 'companyName' | 'catchPhrase' | 'bs';
+type ProfileField = 'name' | 'username' | 'email' | 'phone' | 'website' | 'street' | 'suite' | 'city' | 'zipcode' | 'companyName' | 'catchPhrase' | 'bs' | 'company-name';
 
-const ProfileScreen = ({ navigation }: Props) => {
+export type ProfileScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Profile'>;
+
+const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) => {
   const tailwind = useTailwind();
   const url = 'https://jsonplaceholder.typicode.com/users/';
   const userId = 3;
@@ -43,10 +46,10 @@ const ProfileScreen = ({ navigation }: Props) => {
   });
   
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
+    navigation?.setOptions({
+        headerShown: true
     });
-  }, [navigation]);
+  });
 
   const initialProfileState = {
     id: userId,
@@ -91,7 +94,7 @@ const ProfileScreen = ({ navigation }: Props) => {
       await AsyncStorage.removeItem('profile');
       setLocalProfile(initialProfileState);
       dismissKeyboard();
-      alert('Success');
+      alert('Successfully cleared local data');
       await loadProfileFromApi();
     } catch (e) {
       console.log('Error clearing local profile data: ', e);
@@ -121,7 +124,7 @@ const ProfileScreen = ({ navigation }: Props) => {
       await AsyncStorage.setItem('profile', JSON.stringify(newProfile));
       setLocalProfile(newProfile);
       dismissKeyboard();
-      alert('Success');
+      alert('Successfully saved changes');
       console.log(newProfile);
     } catch (e) {
       console.log('Error saving profile data locally: ', e);
@@ -153,61 +156,94 @@ const ProfileScreen = ({ navigation }: Props) => {
 
   const renderTextInput = (label: string, value: string, field: ProfileField) => {
     return (
-      <View style={tailwind("p-2 text-sm rounded-md block m-2 bg-white")}>
+      <View style={tailwind("p-2 text-sm rounded-md block m-2 bg-gray-100")}>
         <Text style={tailwind("font-semibold")}>{label}</Text>
         <TextInput
           style={tailwind("rounded-md")}
           onChangeText={(text) => handleFieldChange(field, text)}
           value={value}
+          testID={`profile-${field}-input`}
         />
       </View>
     );
   }
     
   return (
-    <SafeAreaView>
-      <ScrollView style={tailwind("p-2")}>
+    <SafeAreaView testID='PostsScreen'>
+      <ScrollView style={tailwind("p-2 text-sm rounded-md block m-2 bg-white border-gray-700")}>
         <View style={tailwind("flex flex-row justify-center items-center mt-4")}>
               <Image source={Images[userId]} style={styles.avatar} />
         </View>
+          <Text style={[tailwind("mt-0 font-semibold"), styles.sectionHeader]}>Account information: </Text>
           {renderTextInput('Name:', localProfile.name, 'name')}
           {renderTextInput('Username:', localProfile.username, 'username')}
           {renderTextInput('Email:', localProfile.email, 'email')}
           {renderTextInput('Phone:', localProfile.phone, 'phone')}
           {renderTextInput('Website:', localProfile.website, 'website')}
 
-          <Text style={tailwind("mt-5 font-semibold")}>Address: </Text>
+          <Text style={[tailwind("mt-5 font-semibold"), styles.sectionHeader]}>Address: </Text>
           {renderTextInput('Street:', localProfile.address.street, 'street')}
           {renderTextInput('Suite:', localProfile.address.suite, 'suite')}
           {renderTextInput('City:', localProfile.address.city, 'city')}
           {renderTextInput('Zipcode:', localProfile.address.zipcode, 'zipcode')}
 
-          <Text style={tailwind("mt-5 font-semibold")}>Company: </Text>
-          {renderTextInput('Name:', localProfile.company.name, 'name')}
+          <Text style={[tailwind("mt-5 font-semibold"), styles.sectionHeader]}>Company: </Text>
+          {renderTextInput('Name:', localProfile.company.name, 'company-name')}
           {renderTextInput('Catch Phrase:', localProfile.company.catchPhrase, 'catchPhrase')}
           {renderTextInput('Bs:', localProfile.company.bs, 'bs')}
 
-          <View style={tailwind("p-2 text-sm rounded-md block m-2 bg-white")}>
-            <Button title='Save local data' onPress={() => handleSaveProfile(localProfile)} />
-            <Button title='Clear local data' onPress={handleClearLocalData} />
-            <Button title='Logout' onPress={handleLogout} />
+          <View style={tailwind("text-sm rounded-md block m-2 bg-white")}>
+            <Pressable style={[styles.button, styles.submitButton]} onPress={() => handleSaveProfile(localProfile)}>
+              <Text style={styles.text}>Save local data</Text>
+            </Pressable>
+            <Pressable style={[styles.button, styles.dangerButton]} onPress={handleClearLocalData} testID='ClearDataButton'>
+              <Text style={styles.text}>Clear local data</Text>
+            </Pressable>
+            <Pressable style={[styles.button, styles.dangerButton]} onPress={handleLogout} testID='LogoutButton'>
+              <Text style={styles.text}>Logout</Text>
+            </Pressable>
           </View>
       </ScrollView>
     </SafeAreaView>
     )
 }
 
+
 const styles = StyleSheet.create({
+  sectionHeader: {
+    color: Variables.headerTextColor
+  },
+  dangerButton: {
+    backgroundColor: Variables.dangerTextColor
+  },
+  submitButton: {
+    backgroundColor: Variables.headerTextColor
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    margin: 5
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
   header: {
-      color: Variables.headerTextColor,
-      fontWeight: "bold"
+    color: Variables.headerTextColor,
+    fontWeight: "bold"
   },
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 75,
-},
+  },
 });
-
 
 export default ProfileScreen

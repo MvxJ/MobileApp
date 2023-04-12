@@ -7,6 +7,7 @@ import AlbumModal from '../screens/AlbumModal';
 import PhotoModal from '../screens/PhotoModal';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import Variables from '../props/Variables';
 import UserModal from '../screens/UserModal';
 
 export type RootStackParamList = {

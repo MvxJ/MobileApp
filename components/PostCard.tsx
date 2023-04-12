@@ -8,7 +8,7 @@ import { PostScreenNavigationProp } from '../screens/PostsScreen';
 import Variables from '../props/Variables';
 import Images from '../props/Images';
 
-const PostCard = (post: Post) => {
+const PostCard = ({ post }: { post: Post }) => {
     const tailwind = useTailwind();
     const navigation = useNavigation<PostScreenNavigationProp>();
     const likes = Math.floor(Math.random() * 100) + 1;

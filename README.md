@@ -12,3 +12,8 @@ npx expo start
 ```
 
 3. Scan QR code with your camera or Expo app.
+
+4. To run tests in your app please run this command in new terminal:
+```sh
+npm test
+```

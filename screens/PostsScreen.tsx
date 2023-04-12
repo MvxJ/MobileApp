@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet, TextInput } from 'react-native'
 import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {useTailwind} from 'tailwind-rn';
 import { Post } from '../interfaces/PostInterface';
@@ -20,8 +20,9 @@ const PostsScreen = () => {
     const tailwind = useTailwind();
     const navigation = useNavigation<PostScreenNavigationProp>();
     const [posts, setPosts] = useState<Post[]>([])
-    const url = "https://jsonplaceholder.typicode.com/posts"
+    const [url, setUrl] = useState<string>('https://jsonplaceholder.typicode.com/posts');
     const [isLoading, setIsLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -40,17 +41,27 @@ const PostsScreen = () => {
     }, []);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={[tailwind('p-2')]}>
             {isLoading ? (
                 <ActivityIndicator />
             ) : (
                 <ScrollView >
-                    <View>
-                        {posts.map((post) => (
-                            <PostCard {...post}></PostCard>
-                        ))}
+                    <View style={[tailwind('flex-grow rounded-md m-2 mb-0 p-2'), styles.searchBox]}>
+                        <TextInput 
+                            style={tailwind('flex-grow ml-2')}
+                            placeholder='Search...'
+                            onChangeText={(text) => setSearchQuery(text)}
+                        />
                     </View>
-                </ScrollView>   
+
+                    <View>
+                        {
+                            posts.filter((post) => post.body.toLowerCase().includes(searchQuery.toLowerCase()) || post.title.toLowerCase().includes(searchQuery.toLowerCase())).map((post) => (
+                                <PostCard post={post}></PostCard>
+                            ))
+                        }
+                    </View>
+                </ScrollView>
             )}
         </SafeAreaView>
     )
@@ -59,6 +70,10 @@ const PostsScreen = () => {
 const styles = StyleSheet.create({
     scrollViewStyles: {
         backgroundColor: Variables.viewBackground
+    },
+    searchBox: {
+        height: 32,
+        backgroundColor: '#fff',
     }
 });
 
