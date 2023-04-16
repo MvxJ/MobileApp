@@ -3,6 +3,7 @@ import LoginScreen from './LoginScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProfileScreen from './ProfileScreen';
+jest.mock('react-native-vector-icons/FontAwesome5', () => 'FontAwesome5');
 
 type ProfileField = 'name' | 'username' | 'email' | 'phone' | 'website' | 'street' | 'suite' | 'city' | 'zipcode' | 'companyName' | 'catchPhrase' | 'bs';
 

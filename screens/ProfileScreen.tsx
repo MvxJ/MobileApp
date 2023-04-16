@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
+import { View, Text, SafeAreaView, Button, TextInput, Keyboard, ScrollView, StyleSheet, Pressable, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigator/RootNavigator';
@@ -9,6 +9,11 @@ import { Profile } from '../interfaces/ProfileInterface';
 import Images from '../props/Images';
 import Variables from '../props/Variables';
 import { useNavigation } from '@react-navigation/native';
+import { Album } from '../interfaces/AlbumInterface';
+import { Post } from '../interfaces/PostInterface';
+import PostCard from '../components/PostCard';
+import AlbumCard from '../components/AlbumCard';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -23,8 +28,15 @@ export type ProfileScreenNavigationProp = NativeStackNavigationProp<RootStackPar
 const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) => {
   const tailwind = useTailwind();
   const url = 'https://jsonplaceholder.typicode.com/users/';
+  const userPostsUrl = 'https://jsonplaceholder.typicode.com/posts?userId=';
+  const userPhotosUrl = 'https://jsonplaceholder.typicode.com/albums?userId=';
   const userId = 3;
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [displayUserPosts, setDisplayUserPosts] = useState<boolean>(false);
+  const [displayUserAlbums, setDisplayUserAlbums] = useState<boolean>(false);
   const [localProfile, setLocalProfile] = useState<Profile>({
     id: userId,
     name: '',
@@ -84,6 +96,20 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
     try {
       const response = await axios.get<Profile>(url + userId);
       setProfile(response.data);
+      axios.get<Album[]>(userPhotosUrl + userId)
+      .then((response: AxiosResponse) => {
+          setAlbums(response.data);
+          setIsLoading(false);
+      }).catch(error => {
+        setIsLoading(false);
+      });
+      axios.get<Post[]>(userPostsUrl + userId)
+        .then((response: AxiosResponse) => {
+            setPosts(response.data);
+            setIsLoading(false);
+        }).catch(error => {
+            setIsLoading(false);
+        });
     } catch (e) {
       console.log('Error loading profile from API: ', e);
     }
@@ -131,6 +157,14 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
     }
   };
 
+  const handleDisplayUserPosts = async () => {
+    setDisplayUserPosts(!displayUserPosts);
+  };
+
+  const handleDisplayUserAlbums = async () => {
+    setDisplayUserAlbums(!displayUserAlbums);
+  };
+
   useEffect(() => {
     const loadProfileFromStorage = async () => {
       try {
@@ -172,7 +206,7 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
     <SafeAreaView testID='PostsScreen'>
       <ScrollView style={tailwind("p-2 text-sm rounded-md block m-2 bg-white border-gray-700")}>
         <View style={tailwind("flex flex-row justify-center items-center mt-4")}>
-              <Image source={Images[userId]} style={styles.avatar} />
+              <Image source={Images[userId - 1]} style={styles.avatar} />
         </View>
           <Text style={[tailwind("mt-0 font-semibold"), styles.sectionHeader]}>Account information: </Text>
           {renderTextInput('Name:', localProfile.name, 'name')}
@@ -191,6 +225,42 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
           {renderTextInput('Name:', localProfile.company.name, 'company-name')}
           {renderTextInput('Catch Phrase:', localProfile.company.catchPhrase, 'catchPhrase')}
           {renderTextInput('Bs:', localProfile.company.bs, 'bs')}
+
+          <TouchableOpacity onPress={handleDisplayUserPosts}>
+              <Text style={[tailwind("mt-5 font-semibold"), styles.sectionHeader]}>User posts <FontAwesome5 name={displayUserPosts ? 'caret-up' : 'caret-down'}/></Text>
+          </TouchableOpacity>
+
+          {
+            displayUserPosts ? (
+              <View>
+                {
+                    posts.map((post) => (
+                        <PostCard post={post}></PostCard>
+                    ))
+                }
+              </View>
+            ) : (
+              null
+            )
+          }
+
+          <TouchableOpacity onPress={handleDisplayUserAlbums}>
+              <Text style={[tailwind("mt-5 font-semibold"), styles.sectionHeader]}>User albums <FontAwesome5 name={displayUserAlbums ? 'caret-up' : 'caret-down'}/></Text>
+          </TouchableOpacity>
+
+          {
+            displayUserAlbums ? (
+              <FlatList
+                  data={albums}
+                  renderItem={({item}) => (
+                    <AlbumCard {...item}></AlbumCard>
+                  )}
+                  numColumns={2}
+                />
+            ) : (
+              null
+            )
+          }
 
           <View style={tailwind("text-sm rounded-md block m-2 bg-white")}>
             <Pressable style={[styles.button, styles.submitButton]} onPress={() => handleSaveProfile(localProfile)}>

@@ -7,7 +7,7 @@ import Variables from '../props/Variables'
 import { Image } from 'react-native'
 import Images from '../props/Images'
 
-const CommentBlock = (comment: Comment) => {
+const CommentBlock = ({comment, removeComment}: {comment: Comment, removeComment: any}) => {
   const tailwind = useTailwind();
   const id = Math.floor(Math.random() * 9) + 0;
   const userEmail = 'Nathan@yesenia.net';
@@ -24,7 +24,7 @@ const CommentBlock = (comment: Comment) => {
       <Text style={[tailwind("text-gray-500 flex flex-row text-justify"), styles.commentBody]}>{comment.body}</Text>
       {userEmail == comment.email ? 
           <View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {removeComment(comment)}}>
                 <Text style={tailwind("mt-3 mr-2 text-red-500 text-right")}>Remove</Text>
             </TouchableOpacity>
           </View> 
