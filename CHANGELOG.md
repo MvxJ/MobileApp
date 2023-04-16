@@ -7,3 +7,4 @@
 - Version 1.0.6 - Login and logout from the app, view and edit profile
 - Version 1.0.7 - Search and inspect all users
 - Version 1.0.8 - Add app tests, edit app styles
+- Version 1.0.9 - User can add comments, and delete comment, on user modal card there are displayed user albums and user posts

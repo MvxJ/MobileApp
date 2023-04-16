@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native'
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { RootStackParamList } from '../navigator/RootNavigator';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -8,6 +8,11 @@ import Variables from '../props/Variables';
 import { Image } from 'react-native';
 import Images from '../props/Images';
 import { User } from '../interfaces/UserInterface';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { Post } from '../interfaces/PostInterface';
+import { Album } from '../interfaces/AlbumInterface';
+import AlbumCard from '../components/AlbumCard';
+import PostCard from '../components/PostCard';
 
 
 type UserModalScreenRouteProp = RouteProp<RootStackParamList, "UserModule">;
@@ -19,8 +24,14 @@ const UserModal = () => {
         params: { userId }
     } = useRoute<UserModalScreenRouteProp>();
     const url = "https://jsonplaceholder.typicode.com/users/" + userId;
+    const userPostsUrl = 'https://jsonplaceholder.typicode.com/posts?userId=';
+    const userPhotosUrl = 'https://jsonplaceholder.typicode.com/albums?userId=';
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState<User>();
+    const [albums, setAlbums] = useState<Album[]>([]);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [displayUserPosts, setDisplayUserPosts] = useState<boolean>(false);
+    const [displayUserAlbums, setDisplayUserAlbums] = useState<boolean>(false);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -37,32 +48,89 @@ const UserModal = () => {
         }).catch(error => {
             setIsLoading(false);
         });
+        axios.get<Album[]>(userPhotosUrl + userId)
+      .then((response: AxiosResponse) => {
+          setAlbums(response.data);
+          setIsLoading(false);
+      }).catch(error => {
+        setIsLoading(false);
+      });
+      axios.get<Post[]>(userPostsUrl + userId)
+        .then((response: AxiosResponse) => {
+            setPosts(response.data);
+            setIsLoading(false);
+        }).catch(error => {
+            setIsLoading(false);
+        });
     }, []);
 
+    const handleDisplayUserPosts = async () => {
+        setDisplayUserPosts(!displayUserPosts);
+      };
+    
+    const handleDisplayUserAlbums = async () => {
+        setDisplayUserAlbums(!displayUserAlbums);
+    };
+
     return (
-      <View style={tailwind("p-2")}>
+      <ScrollView style={tailwind("p-2")}>
         <TouchableOpacity onPress={navigation.goBack} style={tailwind("mb-5")}>
                 <Text style={[tailwind("m-5 text-xl text-right"), styles.header]}>Close</Text>
             </TouchableOpacity>
           <View style={tailwind("flex flex-row justify-center items-center mt-4")}>
-              <Image source={Images[userId]} style={styles.avatar} />
+              <Image source={Images[userId - 1]} style={styles.avatar} />
           </View>
           <View style={tailwind("items-center mt-4")}>
-              <Text style={tailwind("text-lg font-bold")}>{user?.name}</Text>
+              <Text style={[tailwind("text-lg font-bold"), styles.header]}>{user?.name}</Text>
               <Text style={tailwind("text-gray-500 text-sm")}>{user?.email}</Text>
               <Text style={tailwind("text-gray-500 text-sm")}>{user?.phone}</Text>
           </View>
           <View style={tailwind("mt-8")}>
-              <Text style={tailwind("text-lg font-bold mb-2")}>Address</Text>
+              <Text style={[tailwind("text-lg font-bold mb-2"), styles.header]}>Address</Text>
               <Text style={tailwind("text-gray-500 text-sm")}>{user?.address.street}, {user?.address.suite}</Text>
               <Text style={tailwind("text-gray-500 text-sm")}>{user?.address.city}, {user?.address.zipcode}</Text>
           </View>
           <View style={tailwind("mt-8")}>
-              <Text style={tailwind("text-lg font-bold mb-2")}>Company</Text>
+              <Text style={[tailwind("text-lg font-bold mb-2"), styles.header]}>Company</Text>
               <Text style={tailwind("text-gray-500 text-sm")}>{user?.company.name}</Text>
               <Text style={tailwind("text-gray-500 text-sm")}>{user?.company.catchPhrase}</Text>
           </View>
-      </View>
+          <TouchableOpacity onPress={handleDisplayUserPosts} style={tailwind("mt-4")}>
+              <Text style={[tailwind("text-lg font-bold mb-2"), styles.header]}>User posts <FontAwesome5Icon name={displayUserPosts ? 'caret-up' : 'caret-down'}/></Text>
+          </TouchableOpacity>
+
+          {
+            displayUserPosts ? (
+              <View>
+                {
+                    posts.map((post) => (
+                        <PostCard post={post}></PostCard>
+                    ))
+                }
+              </View>
+            ) : (
+              null
+            )
+          }
+
+          <TouchableOpacity onPress={handleDisplayUserAlbums} style={tailwind("mt-4")}>
+              <Text style={[tailwind("text-lg font-bold mb-2"), styles.header]}>User albums <FontAwesome5Icon name={displayUserAlbums ? 'caret-up' : 'caret-down'}/></Text>
+          </TouchableOpacity>
+
+          {
+            displayUserAlbums ? (
+              <FlatList
+                  data={albums}
+                  renderItem={({item}) => (
+                    <AlbumCard {...item}></AlbumCard>
+                  )}
+                  numColumns={2}
+                />
+            ) : (
+              null
+            )
+          }
+      </ScrollView>
   );
 };
 

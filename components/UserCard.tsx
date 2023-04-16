@@ -23,7 +23,7 @@ const UserCard = (user: User) => {
         >
             <View style={tailwind("p-5 text-sm rounded-md block m-2 bg-white border-gray-700")}>
                 <View style={styles.headerBox}>
-                    <Image source={Images[user.id]} style={styles.profileImage} />
+                    <Image source={Images[user.id - 1]} style={styles.profileImage} />
                     <Text style={tailwind("text-start mt-5 text-gray-500")}>{user.name}</Text>
                 </View>
             </View>

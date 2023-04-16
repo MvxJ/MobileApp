@@ -33,6 +33,43 @@ const PostModal = () => {
     const url = "https://jsonplaceholder.typicode.com/comments?postId=" + postId;
     const [isLoading, setIsLoading] = useState(true);
     const [author, setAuthor] = useState<Profile>();
+    const userEmail = 'Nathan@yesenia.net';
+    const [displayCommentForm, setDisplayCommentForm] = useState<boolean>(false);
+    const [commentBody, setCommentBody] = useState<string>('')
+    const [commentTitle, setCommentTitle] = useState<string>('')
+
+    const handleDisplayUserForm = async () => {
+        setDisplayCommentForm(!displayCommentForm);
+    }
+
+    const addComment = async () => {
+        setIsLoading(true);
+        const request = {"postId": postId, "name": commentTitle, "email": userEmail, "body": commentBody}
+        axios.post('https://jsonplaceholder.typicode.com/comments', request)
+        .then((response: AxiosResponse) => {
+            const comment = response.data;
+            comments.unshift(comment);
+            setDisplayCommentForm(false);
+            setIsLoading(false);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    };
+
+    const removeCommentFunction = async (comment: Comment) => {
+        setIsLoading(true);
+        axios.delete('https://jsonplaceholder.typicode.com/comments/' + comment.id)
+        .then((response: AxiosResponse) => {
+            const index = comments.indexOf(comment);
+            comments.splice(index, 1);
+            setIsLoading(false);
+        })
+        .catch((error) => {
+            console.log(error);
+            setIsLoading(false);
+        });
+    }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -78,11 +115,42 @@ const PostModal = () => {
                             <Text style={tailwind("block mr-5 mt-5")}>{likes} <FontAwesome5 name={'thumbs-up'}/></Text>
                             <Text style={tailwind("block mr-5 mt-5")}>{disLikes} <FontAwesome5 name={'thumbs-down'}/></Text>
                         </View>
-                        <View style={tailwind("mb-5 mt-5")}>
-                            <Text style={tailwind("text-sm text-gray-700")}>Comments (5):</Text>
+                        <View style={tailwind("mb-1 mt-5")}>
+                            <Text style={tailwind("text-sm text-gray-700")}>Comments ({comments.length}):</Text>
                         </View>
+                        
+                        <TouchableOpacity onPress={handleDisplayUserForm} style={tailwind("mb-5")}>
+                            <Text style={tailwind("text-sm text-gray-700")}>Add comment <FontAwesome5 name={displayCommentForm ? 'caret-up' : 'caret-down'}/></Text>
+                        </TouchableOpacity>
+
+                        { 
+                            displayCommentForm ? (
+                                <View style={tailwind("flex mb-5 justify-center")}>
+                                    <TextInput 
+                                        placeholder="Comment title..." 
+                                        onChangeText={text => setCommentTitle(text)} 
+                                        style={styles.commentInput}
+                                    />
+                                    <TextInput 
+                                        placeholder='Comment body...' 
+                                        onChangeText={text => setCommentBody(text)}
+                                        style={styles.commentInput}
+                                    />
+                                    <View style={styles.addCommentWrapper}>
+                                        <TouchableOpacity onPress={addComment} style={styles.addCommentButton}>
+                                            <Text style={tailwind("text-white text-center")}>
+                                                Add
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            ) : (
+                                null
+                            )
+                        }
+                        
                         {comments.map((comment) => (
-                            <CommentBlock {...comment}></CommentBlock>
+                            <CommentBlock comment={comment} removeComment={removeCommentFunction}></CommentBlock>
                         ))}
                     </ScrollView>
             )}
@@ -109,6 +177,25 @@ const styles = StyleSheet.create({
     },
     authorColor: {
         color: Variables.headerTextColor
+    },
+    addCommentWrapper: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    addCommentButton: {
+        width: 100,
+        textAlign: 'center',
+        color: '#fff',
+        paddingVertical: 5,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: Variables.headerTextColor
+    },
+    commentInput: {
+        width: '90%',
+        height: 25,
+        margin: 5
     }
 });
 

@@ -11,7 +11,7 @@ describe('CommentBlock', () => {
       email: "example@info.com",
       body: "Lorem ipsum"
     }
-    const { getByText } = render(<CommentBlock {...comment} />);
+    const { getByText } = render(<CommentBlock comment={comment} removeComment={jest.fn}/>);
     const text = getByText(comment.body);
     const userEmail = getByText(comment.email);
     const userName = getByText(comment.name);
