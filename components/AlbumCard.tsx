@@ -25,7 +25,8 @@ const AlbumCard = (album: Album) => {
                 // @ts-ignore
                 navigation.navigate('AlbumModule', {
                     albumId: album.id,
-                    albumTitle: album.title
+                    albumTitle: album.title,
+                    userId: album.userId
                 })
             }
             style={styles.card}

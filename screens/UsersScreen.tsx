@@ -46,7 +46,7 @@ const UsersScreen = () => {
     }, []);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={[tailwind('p-2')]}>
             <View style={[tailwind('flex-grow rounded-md m-2 mb-0 p-2'), styles.searchBox]}>
                 <TextInput 
                     style={tailwind('flex-grow ml-2')}
@@ -58,7 +58,7 @@ const UsersScreen = () => {
             {isLoading ? (
                 <ActivityIndicator />
             ) : (
-                <ScrollView >
+                <ScrollView>
                     <View>
                     {users
                             .filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()))

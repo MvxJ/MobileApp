@@ -16,7 +16,7 @@ describe('PhotoCard', () => {
   it('navigates to PhotoModal after clicking', async () => {
     const { getByTestId, findByText } = render(
       <NavigationContainer>
-          <PhotoCard {...photo} />
+          <PhotoCard photo={photo} deletePhotoFunction={jest.fn} />
       </NavigationContainer>
     );
     const card = getByTestId("PhotoCardComponent");

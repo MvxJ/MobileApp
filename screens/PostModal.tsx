@@ -98,11 +98,11 @@ const PostModal = () => {
     }, []);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={tailwind("p-2 text-sm rounded-md block m-2 bg-white border-gray-700")}>
             {isLoading ? (
                     <ActivityIndicator />
                 ) : (
-                    <ScrollView style={tailwind("p-2 text-sm rounded-md block m-2 bg-white border-gray-700")}>
+                    <ScrollView style={styles.card}>
                         <View style={styles.headerBox}>
                             <Image source={Images[autorId -1]} style={styles.profileImage} />
                             <View style={styles.title}>
@@ -196,6 +196,11 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 25,
         margin: 5
+    },
+    card: {
+        position: 'relative',
+        top: -30,
+        height: '100%'
     }
 });
 

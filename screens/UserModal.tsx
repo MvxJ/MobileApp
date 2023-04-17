@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native'
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { RootStackParamList } from '../navigator/RootNavigator';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { CompositeNavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import axios, { AxiosResponse } from 'axios';
 import { useTailwind } from 'tailwind-rn/dist';
 import Variables from '../props/Variables';
@@ -13,9 +13,17 @@ import { Post } from '../interfaces/PostInterface';
 import { Album } from '../interfaces/AlbumInterface';
 import AlbumCard from '../components/AlbumCard';
 import PostCard from '../components/PostCard';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { TabStackParamList } from '../navigator/TabNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+type UserModalScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<TabStackParamList>, 
+  NativeStackNavigationProp<RootStackParamList, "UserModule">
+>;
 
-type UserModalScreenRouteProp = RouteProp<RootStackParamList, "UserModule">;
+export type UserModalScreenRouteProp = RouteProp<RootStackParamList, "UserModule">;
 
 const UserModal = () => {
     const tailwind = useTailwind();
@@ -35,7 +43,8 @@ const UserModal = () => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerShown: false,
+            headerShown: true,
+            title: user?.name,
             headerTintColor: Variables.headerTextColor
         });
     });
@@ -73,10 +82,8 @@ const UserModal = () => {
     };
 
     return (
-      <ScrollView style={tailwind("p-2")}>
-        <TouchableOpacity onPress={navigation.goBack} style={tailwind("mb-5")}>
-                <Text style={[tailwind("m-5 text-xl text-right"), styles.header]}>Close</Text>
-            </TouchableOpacity>
+      <SafeAreaView style={tailwind("m-2 p-2 rounded-md bg-white")}>
+        <ScrollView >
           <View style={tailwind("flex flex-row justify-center items-center mt-4")}>
               <Image source={Images[userId - 1]} style={styles.avatar} />
           </View>
@@ -131,6 +138,7 @@ const UserModal = () => {
             )
           }
       </ScrollView>
+      </SafeAreaView>
   );
 };
 
