@@ -17,3 +17,7 @@ npx expo start
 ```sh
 npm test
 ```
+
+## Authors
+- Maksymilian Jachymczak
+- Kacper Dziedzic
