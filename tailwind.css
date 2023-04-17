@@ -26,6 +26,10 @@
   margin-bottom: 0px
 }
 
+.mb-1 {
+  margin-bottom: 0.25rem
+}
+
 .mb-2 {
   margin-bottom: 0.5rem
 }
@@ -70,10 +74,6 @@
   margin-top: 2rem
 }
 
-.mb-1 {
-  margin-bottom: 0.25rem
-}
-
 .block {
   display: block
 }
@@ -98,10 +98,6 @@
   width: 91.666667%
 }
 
-.w-full {
-  width: 100%
-}
-
 .flex-1 {
   flex: 1 1 0%
 }
@@ -112,6 +108,10 @@
 
 .flex-row {
   flex-direction: row
+}
+
+.content-center {
+  align-content: center
 }
 
 .items-center {
@@ -169,6 +169,10 @@
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem
+}
+
+.pt-0 {
+  padding-top: 0px
 }
 
 .text-center {

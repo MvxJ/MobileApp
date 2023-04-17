@@ -4,7 +4,7 @@ import { Photo } from '../interfaces/PhotoInterfacce'
 import { useNavigation } from '@react-navigation/native'
 import Variables from '../props/Variables'
 
-const PhotoCard = (photo: Photo) => {
+const PhotoCard = ({photo, deletePhotoFunction}: {photo: Photo, deletePhotoFunction: any}) => {
     const navigation = useNavigation();
 
     return (
@@ -14,7 +14,9 @@ const PhotoCard = (photo: Photo) => {
                 // @ts-ignore
                 navigation.navigate('PhotoModule', {
                     photoUrl: photo.url,
-                    photoTitle: photo.title
+                    photoTitle: photo.title,
+                    photo: photo,
+                    removePhotoFunction: deletePhotoFunction
                 })
             }
             style={styles.card}
