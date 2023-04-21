@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     addButton: {
-        backgroundColor: '#007AFF',
+        backgroundColor: Variables.iconsActiveColor,
         borderRadius: 50,
         width: 60,
         height: 60,

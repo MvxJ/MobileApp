@@ -131,8 +131,9 @@ const PostModal = () => {
                                 autorId == 3 ? (
                                         <TouchableOpacity 
                                             onPress={() => {removePostFunction(post, navigation)}}
+                                            style={[tailwind("rounded-md mt-5"), styles.button]}
                                             >
-                                            <Text style={styles.buttonText}>Delete post</Text>
+                                            <Text style={[styles.buttonText, tailwind("text-white")]}>Delete post</Text>
                                         </TouchableOpacity>
                                 ) : (
                                     null
@@ -231,6 +232,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         lineHeight: 40
+    },
+    button: {
+        backgroundColor: Variables.dangerTextColor
     }
 });
 
