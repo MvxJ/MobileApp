@@ -15,6 +15,7 @@ import Variables from '../props/Variables';
 import { Profile } from '../interfaces/ProfileInterface';
 import { Image } from 'react-native';
 import Images from '../props/Images';
+import { Post } from '../interfaces/PostInterface';
 
 type PostModalScreenNavigationProp = CompositeNavigationProp<
     BottomTabNavigationProp<TabStackParamList>, 
@@ -27,9 +28,10 @@ const PostModal = () => {
     const tailwind = useTailwind();
     const navigation = useNavigation<PostModalScreenNavigationProp>();
     const {
-        params: { postId, postBody, postTitle, autorId, likes, disLikes }
+        params: { postId, postBody, postTitle, autorId, likes, disLikes, removePostFunction, post, addPostFunction }
     } = useRoute<PostModalScreenRouteProp>();
     const [comments, setComments] = useState<Comment[]>([]);
+    const [posts, setPosts] = useState<Post[]>([]);
     const url = "https://jsonplaceholder.typicode.com/comments?postId=" + postId;
     const [isLoading, setIsLoading] = useState(true);
     const [author, setAuthor] = useState<Profile>();
@@ -95,6 +97,14 @@ const PostModal = () => {
         }).catch(error => {
             setIsLoading(false);
         });
+        setIsLoading(true);
+        axios.get<Post>("https://jsonplaceholder.typicode.com/posts/")
+        .then((response: AxiosResponse) => {
+            setPosts(response.data);
+            setIsLoading(false);
+        }).catch(error => {
+            setIsLoading(false);
+        });
     }, []);
 
     return (
@@ -115,6 +125,21 @@ const PostModal = () => {
                             <Text style={tailwind("block mr-5 mt-5")}>{likes} <FontAwesome5 name={'thumbs-up'}/></Text>
                             <Text style={tailwind("block mr-5 mt-5")}>{disLikes} <FontAwesome5 name={'thumbs-down'}/></Text>
                         </View>
+
+                        <View>
+                                {
+                                autorId == 3 ? (
+                                        <TouchableOpacity 
+                                            onPress={() => {removePostFunction(post, navigation)}}
+                                            >
+                                            <Text style={styles.buttonText}>Delete post</Text>
+                                        </TouchableOpacity>
+                                ) : (
+                                    null
+                                )
+                                }
+                        </View>
+                        
                         <View style={tailwind("mb-1 mt-5")}>
                             <Text style={tailwind("text-sm text-gray-700")}>Comments ({comments.length}):</Text>
                         </View>
@@ -201,6 +226,11 @@ const styles = StyleSheet.create({
         position: 'relative',
         top: -30,
         height: '100%'
+    },
+    buttonText: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        lineHeight: 40
     }
 });
 

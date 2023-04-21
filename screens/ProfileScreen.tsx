@@ -201,6 +201,46 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
       </View>
     );
   }
+
+  const deletePost = async(post: Post, localNavigation: any) => {
+    setIsLoading(true);
+    axios.delete('https://jsonplaceholder.typicode.com/posts/' + post.id)
+    .then((response: AxiosResponse) => {
+        const index = posts.indexOf(post);
+        console.log(index);
+        posts.splice(index, 1);
+        setIsLoading(false);
+        localNavigation.goBack();
+        navigation.goBack;
+    })
+    .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        localNavigation.goBack();
+        navigation.goBack;
+    });
+}
+
+const addPost = async (title: string, body: string, localNavigation: any) => {
+  if (title != '' && body != '') {
+      setIsLoading(true);
+      const request = {"title": title, "body": body, "userId": 3}
+      axios.post('https://jsonplaceholder.typicode.com/posts', request)
+      .then((response: AxiosResponse) => {
+          const post = response.data;
+          posts.unshift(post);
+          localNavigation.goBack();
+          navigation.goBack;
+          setIsLoading(false);
+      })
+      .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+          localNavigation.goBack();
+          navigation.goBack;
+      });
+  }
+}
     
   return (
     <SafeAreaView testID='PostsScreen'>
@@ -230,12 +270,30 @@ const ProfileScreen = ({navigation}: {navigation: ProfileScreenNavigationProp}) 
               <Text style={[tailwind("mt-5 font-semibold"), styles.sectionHeader]}>User posts <FontAwesome5 name={displayUserPosts ? 'caret-up' : 'caret-down'}/></Text>
           </TouchableOpacity>
 
+          { 
+                         userId== 3 ? (
+                            <TouchableOpacity 
+                            //style={styles.addImageButton}
+                            onPress={() =>
+                                // @ts-ignore
+                                navigation.navigate('AddPostModule', {
+                                    addPostFunction: addPost
+                                }
+                            )}
+                            >
+                            <Text style={styles.buttonText}>Add post</Text>
+                        </TouchableOpacity>
+                        ) : (
+                            null
+                        )
+            }
+
           {
             displayUserPosts ? (
               <View>
                 {
                     posts.map((post) => (
-                        <PostCard post={post}></PostCard>
+                        <PostCard post={post} deletePostFunction={deletePost}></PostCard>
                     ))
                 }
               </View>
@@ -314,6 +372,11 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 75,
   },
+  buttonText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight: 40
+}
 });
 
 export default ProfileScreen

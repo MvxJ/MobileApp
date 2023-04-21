@@ -11,6 +11,8 @@ import Variables from '../props/Variables';
 import UserModal from '../screens/UserModal';
 import UploadPhotoModal from '../screens/UploadPhotoModal';
 import { Photo } from '../interfaces/PhotoInterfacce';
+import NewPostModal from '../screens/NewPostModal';
+import { Post } from '../interfaces/PostInterface';
 
 export type RootStackParamList = {
     Login: undefined;
@@ -19,11 +21,12 @@ export type RootStackParamList = {
     Posts: {order: any}
     Albums: {order: any};
     Users: {order: any};
-    PostModule: {postId: number, postBody: string, postTitle: string, autorId: number, likes: number, disLikes: number}
+    PostModule: {postId: number, postBody: string, postTitle: string, autorId: number, likes: number, disLikes: number, removePostFunction: any, post: Post, addPostFunction: any}
     AlbumModule: {albumId: number, albumTitle: string, userId: number}
     PhotoModule: {photo: Photo, removePhotoFunction: any}
     UserModule: {userId: number, username: string},
     AddPhotoModule: {uploadPhotoFunction: any}
+    AddPostModule: {addPostFunction: any}
 }
 
 const RootStack = createNativeStackNavigator();
@@ -48,13 +51,14 @@ const RootNavigator = () => {
         }}>
           <RootStack.Screen name="PostModule" component={PostModal} options={{headerShown: false}}/>
           <RootStack.Screen name="AlbumModule" component={AlbumModal} options={{headerShown: false}} />
-          <RootStack.Screen name="UserModule" component={UserModal} options={{headerShown: false}} />          
+          <RootStack.Screen name="UserModule" component={UserModal} options={{headerShown: false}} />              
         </RootStack.Group>
         <RootStack.Group screenOptions={{
             presentation: "modal"
         }}>
             <RootStack.Screen name="PhotoModule" component={PhotoModal} options={{headerShown: false}}/>
             <RootStack.Screen name="AddPhotoModule" component={UploadPhotoModal} options={{headerShown: false}} />
+            <RootStack.Screen name="AddPostModule" component={NewPostModal} options={{headerShown: false}} />
         </RootStack.Group>
     </RootStack.Navigator>
   )
