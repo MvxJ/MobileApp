@@ -270,27 +270,19 @@ const addPost = async (title: string, body: string, localNavigation: any) => {
               <Text style={[tailwind("mt-5 font-semibold"), styles.sectionHeader]}>User posts <FontAwesome5 name={displayUserPosts ? 'caret-up' : 'caret-down'}/></Text>
           </TouchableOpacity>
 
-          { 
-                         userId== 3 ? (
-                            <TouchableOpacity 
-                            //style={styles.addImageButton}
-                            onPress={() =>
-                                // @ts-ignore
-                                navigation.navigate('AddPostModule', {
-                                    addPostFunction: addPost
-                                }
-                            )}
-                            >
-                            <Text style={styles.buttonText}>Add post</Text>
-                        </TouchableOpacity>
-                        ) : (
-                            null
-                        )
-            }
-
           {
-            displayUserPosts ? (
+            displayUserPosts && userId == 3 ? (
               <View>
+                <TouchableOpacity 
+                  onPress={() =>
+                      // @ts-ignore
+                      navigation.navigate('AddPostModule', {
+                          addPostFunction: addPost
+                      }
+                  )}
+                  >
+                  <Text style={styles.buttonText}>Add post</Text>
+                </TouchableOpacity>
                 {
                     posts.map((post) => (
                         <PostCard post={post} deletePostFunction={deletePost}></PostCard>
