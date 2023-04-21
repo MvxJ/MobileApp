@@ -110,10 +110,6 @@
   flex-direction: row
 }
 
-.content-center {
-  align-content: center
-}
-
 .items-center {
   align-items: center
 }
@@ -169,10 +165,6 @@
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem
-}
-
-.pt-0 {
-  padding-top: 0px
 }
 
 .text-center {

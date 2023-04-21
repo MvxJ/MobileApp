@@ -147,11 +147,6 @@
 			"flexDirection": "row"
 		}
 	},
-	"content-center": {
-		"style": {
-			"alignContent": "center"
-		}
-	},
 	"items-center": {
 		"style": {
 			"alignItems": "center"
@@ -241,11 +236,6 @@
 		"style": {
 			"paddingTop": 12,
 			"paddingBottom": 12
-		}
-	},
-	"pt-0": {
-		"style": {
-			"paddingTop": 0
 		}
 	},
 	"text-center": {

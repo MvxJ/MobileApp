@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet, TextInput } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {useTailwind} from 'tailwind-rn';
 import { Post } from '../interfaces/PostInterface';
@@ -10,6 +10,7 @@ import { TabStackParamList } from '../navigator/TabNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigator/RootNavigator';
 import Variables from '../props/Variables';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export type PostScreenNavigationProp = CompositeNavigationProp<
     BottomTabNavigationProp<TabStackParamList, 'Posts'>, 
@@ -40,6 +41,46 @@ const PostsScreen = () => {
         });
     }, []);
 
+    const deletePost = async(post: Post, localNavigation: any) => {
+        setIsLoading(true);
+        axios.delete('https://jsonplaceholder.typicode.com/posts/' + post.id)
+        .then((response: AxiosResponse) => {
+            const index = posts.indexOf(post);
+            console.log(index);
+            posts.splice(index, 1);
+            setIsLoading(false);
+            localNavigation.goBack();
+            navigation.goBack;
+        })
+        .catch((error) => {
+            console.log(error);
+            setIsLoading(false);
+            localNavigation.goBack();
+            navigation.goBack;
+        });
+    }
+
+    const addPost = async (title: string, body: string, localNavigation: any) => {
+        if (title != '' && body != '') {
+            setIsLoading(true);
+            const request = {"title": title, "body": body, "userId": 3}
+            axios.post('https://jsonplaceholder.typicode.com/posts', request)
+            .then((response: AxiosResponse) => {
+                const post = response.data;
+                posts.unshift(post);
+                localNavigation.goBack();
+                navigation.goBack;
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setIsLoading(false);
+                localNavigation.goBack();
+                navigation.goBack;
+            });
+        }
+      }
+
     return (
         <SafeAreaView style={[tailwind('p-2')]}>
             {isLoading ? (
@@ -57,12 +98,22 @@ const PostsScreen = () => {
                     <View>
                         {
                             posts.filter((post) => post.body.toLowerCase().includes(searchQuery.toLowerCase()) || post.title.toLowerCase().includes(searchQuery.toLowerCase())).map((post) => (
-                                <PostCard post={post}></PostCard>
+                                <PostCard post={post} deletePostFunction={deletePost}></PostCard>
                             ))
                         }
                     </View>
                 </ScrollView>
             )}
+            <TouchableOpacity style={styles.addButton}
+                onPress={() =>
+                    // @ts-ignore
+                    navigation.navigate('AddPostModule', {
+                        addPostFunction: addPost
+                    }
+                )}
+            >
+                <FontAwesome5 name={'plus'} style={styles.addPostIcon}/>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
@@ -74,7 +125,31 @@ const styles = StyleSheet.create({
     searchBox: {
         height: 32,
         backgroundColor: '#fff',
-    }
+    },
+    addButton: {
+        backgroundColor: '#007AFF',
+        borderRadius: 50,
+        width: 60,
+        height: 60,
+        zIndex: 9999,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+        elevation: 8,
+      },
+      addPostIcon: {
+        color: '#fff',
+        fontSize: 24,
+      },
 });
 
 export default PostsScreen

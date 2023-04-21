@@ -9,3 +9,4 @@
 - Version 1.0.8 - Add app tests, edit app styles
 - Version 1.0.9 - User can add comments, and delete comment, on user modal card there are displayed user albums and user posts
 - Version 1.0.10 - User can add photos and remove photos
+- Version 1.0.11 - User can add posts and remove his posts

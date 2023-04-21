@@ -8,7 +8,7 @@ import { PostScreenNavigationProp } from '../screens/PostsScreen';
 import Variables from '../props/Variables';
 import Images from '../props/Images';
 
-const PostCard = ({ post }: { post: Post }) => {
+const PostCard = ({ post, deletePostFunction }: { post: Post, deletePostFunction: any}) => {
     const tailwind = useTailwind();
     const navigation = useNavigation<PostScreenNavigationProp>();
     const likes = Math.floor(Math.random() * 100) + 1;
@@ -25,7 +25,9 @@ const PostCard = ({ post }: { post: Post }) => {
                     postTitle: post.title,
                     autorId: post.userId,
                     likes: likes,
-                    disLikes: disLikes
+                    disLikes: disLikes,
+                    post: post,
+                    removePostFunction: deletePostFunction
                 })
             }
         >
@@ -61,6 +63,12 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 25,
         marginRight: 15
+    },
+    buttonText: {
+        color: 'red',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        lineHeight: 40
     }
 });
 
