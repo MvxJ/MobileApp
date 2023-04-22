@@ -280,8 +280,9 @@ const addPost = async (title: string, body: string, localNavigation: any) => {
                           addPostFunction: addPost
                       }
                   )}
+                  style={[styles.button, styles.submitButton, styles.addButton]}
                   >
-                  <Text style={styles.buttonText}>Add post</Text>
+                  <Text style={[tailwind("text-white font-bold")]}>Add post</Text>
                 </TouchableOpacity>
                 {
                     posts.map((post) => (
@@ -368,7 +369,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 40
-}
+  },
+  addButton: {
+    height: 40,
+  }
 });
 
 export default ProfileScreen
